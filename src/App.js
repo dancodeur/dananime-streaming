@@ -1,14 +1,24 @@
 import './App.css';
+import 'rsuite/dist/rsuite.min.css';
 import {BrowserRouter,Routes,Route} from "react-router-dom";
 import Home from './page/Home';
 import Streaming from './page/Streaming';
 import { useState } from 'react';
 import MobileHeader from './component/MobileHeader';
 import SideBar from './component/SideBar';
+import {Modal,Placeholder,Button} from 'rsuite';
+import SearchIcon from '@rsuite/icons/Search';
 
 function App() {
 
-const [darkMode,setDarkMode]=useState(false);
+/****Rsuite */
+
+const [open, setOpen]=useState(false);
+  const [backdrop, setBackdrop]=useState('static');
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+const [darkMode,setDarkMode]=useState(false); //DarkMode Modal variable...
 
 const IsDark=()=>{
   setDarkMode(!darkMode);
@@ -26,6 +36,8 @@ const Dark=(
   </svg>
 );
 
+
+
   return (
     <div className="App">
 
@@ -41,9 +53,10 @@ const Dark=(
                 <section className=' bg-slate-50 md:col-span-10 p-2 md:p-5'>
                      {/**Header content page */}
                     <section className='hidden md:block  sticky top-2'>
-                        <div className='flex w-full justify-end space-x-4 '>
 
-                        <svg onClick={()=>alert("Search no avilable")} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 cursor-pointer">
+                        <div className='flex w-full justify-end space-x-4 '>
+                         {/**Search Bar.... */}
+                        <svg onClick={handleOpen} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="w-5 h-5 cursor-pointer">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                          </svg>
 
@@ -54,6 +67,27 @@ const Dark=(
                           </div>
 
                         </div>
+
+                        {/***Modal */}
+
+                        <Modal backdrop={backdrop} keyboard={false} open={open} onClose={handleClose}>
+                              <Modal.Header>
+                                <Modal.Title>Recherche</Modal.Title>
+                              </Modal.Header>
+
+                              <Modal.Body>
+                                  <input type="search" value="" className='w-full p-2 border-0  appearance-none  bg-slate-50 rounded focus:outline-none'></input>
+                                 
+                              </Modal.Body>
+                              <Modal.Footer>
+                                <Button onClick={handleClose} appearance="primary">
+                                  Rechercher
+                                </Button>
+                                <Button onClick={handleClose} appearance="subtle">
+                                  Annuler
+                                </Button>
+                              </Modal.Footer>
+                          </Modal>
                     </section>
 
                     <BrowserRouter>
